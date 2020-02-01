@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:savemo_screen/constants.dart';
+import 'package:savemo_screen/utilities/constants.dart';
 
 import 'screens/foreground.dart';
 import 'screens/background.dart';
