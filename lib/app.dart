@@ -17,15 +17,19 @@ class _SavemoState extends State<Savemo> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          //TODO: Fix alignment
-          title: Center(child: Image.asset('assets/images/savemo.png', fit: BoxFit.cover,)),
+          title: ConstrainedBox(
+              constraints: BoxConstraints(maxHeight: 35, maxWidth: 200),
+              child: Image.asset('assets/images/savemo.png')),
+          centerTitle: true,
           backgroundColor: backgroundColor,
           leading: Icon(Icons.arrow_back),
+          elevation: 0,
         ),
-              body: Stack(
+        body: Stack(
           children: <Widget>[
-            Foreground(),
-            Background()
+            // Foreground(),
+            Background(),
+            Foreground()
           ],
         ),
       ),

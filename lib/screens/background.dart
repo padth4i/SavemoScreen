@@ -15,9 +15,12 @@ class _BackgroundState extends State<Background> {
       color: backgroundColor,
       child: Stack(
         children: <Widget>[
-          Align(
-            child: dotGrid(),
-            alignment: Alignment.topLeft,
+          Padding(
+            padding: EdgeInsets.only(top: 25),
+            child: Align(
+              child: dotGrid(),
+              alignment: Alignment.topLeft,
+            ),
           ),
           Padding(
             padding: EdgeInsets.only(bottom: 250),
@@ -44,6 +47,7 @@ class _BackgroundState extends State<Background> {
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 8, crossAxisSpacing: 10, mainAxisSpacing: 10)),
     );
+    
   }
 
   Widget circleShape() {
