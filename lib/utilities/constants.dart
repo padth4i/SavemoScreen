@@ -12,4 +12,6 @@ final factTextStyle = TextStyle(
 
 final Color backgroundColor = Color(0xFF171717);
 
-final Color patternColor = Color(0xFFF1F2FF);
+final Color dotPatternColor = Color(0x0DF1F2FF);
+
+final Color circleColor = Color(0x03FFFFFF);

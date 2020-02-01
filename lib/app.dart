@@ -24,8 +24,8 @@ class _SavemoState extends State<Savemo> {
         ),
               body: Stack(
           children: <Widget>[
-            Background(),
-            Foreground()
+            Foreground(),
+            Background()
           ],
         ),
       ),
