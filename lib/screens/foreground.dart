@@ -17,6 +17,7 @@ class _ForegroundState extends State<Foreground> {
     return BlocBuilder(
         bloc: pageBloc,
         builder: (context, state) {
+          int _counter = 0;
           return Positioned(
             top: 80,
             left: (MediaQuery.of(context).size.width - 325) / 2.0,
@@ -48,11 +49,13 @@ class _ForegroundState extends State<Foreground> {
                           borderRadius: 7,
                           onTap: () {
                             pageBloc.add(DecrementCounter());
+                            // setState(() {
+                            //   _counter -= 100;
+                            // });
                           },
                         ),
                         Text(
-                          '₹${state.page.initialAmount}',
-                          // '${state.amount}',
+                          state.page.initialAmount.toString(),
                           style: numberStyle,
                         ),
                         CustomIconButton(
@@ -62,6 +65,13 @@ class _ForegroundState extends State<Foreground> {
                           borderRadius: 7,
                           onTap: () {
                             pageBloc.add(IncrementCounter());
+
+                            // setState(
+                            //   () {
+                            //     print(state);
+                            //     _counter += 100;
+                            //   },
+                            // );
                           },
                         ),
                       ],
@@ -78,6 +88,7 @@ class _ForegroundState extends State<Foreground> {
                           borderRadius: 16,
                           onTap: () {
                             pageBloc.add(ChangePage());
+                            _counter = state.page.initialAmount;
                           },
                         ),
                       ),

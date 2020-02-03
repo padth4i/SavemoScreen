@@ -9,12 +9,12 @@ class ChangePage extends PageEvent {
   List<Object> get props => [];
 }
 
-class IncrementCounter extends PageEvent {
+class DecrementCounter extends PageEvent {
   @override
   List<Object> get props => [];
 }
 
-class DecrementCounter extends PageEvent {
+class IncrementCounter extends PageEvent {
   @override
   List<Object> get props => [];
 }

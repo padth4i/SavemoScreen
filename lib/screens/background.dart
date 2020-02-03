@@ -41,18 +41,17 @@ class _BackgroundState extends State<Background> {
       child: GridView.builder(
           itemCount: 48,
           itemBuilder: (context, index) => Container(
-                decoration:
-                    BoxDecoration(color: dotPatternColor, shape: BoxShape.circle),
+                decoration: BoxDecoration(
+                    color: dotPatternColor, shape: BoxShape.circle),
               ),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 8, crossAxisSpacing: 10, mainAxisSpacing: 10)),
     );
-    
   }
 
   Widget circleShape() {
     return SizedBox.shrink(
-          child: Container(
+      child: Container(
         child: new CustomPaint(
           painter: HalfCirclePainter(),
         ),

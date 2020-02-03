@@ -6,9 +6,16 @@ abstract class PageState extends Equatable {
 
 class PageInitial extends PageState {
   final Page page;
-  final int amount;
 
-  const PageInitial(this.page, this.amount);
+  const PageInitial(this.page);
   @override
-  List<Object> get props => [page, amount];
+  List<Object> get props => [page];
+}
+
+class PageCounter extends PageState {
+  final int counter;
+
+  PageCounter(this.counter);
+  @override
+  List<Object> get props => [];
 }
