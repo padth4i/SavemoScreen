@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:savemo_screen/bloc/page_bloc.dart';
+import 'package:savemo_screen/data/user_database.dart';
 import 'package:savemo_screen/page.dart';
 import 'package:savemo_screen/utilities/constants.dart';
 import 'package:savemo_screen/utilities/widgets.dart';
@@ -14,6 +16,7 @@ class _ForegroundState extends State<Foreground> {
   @override
   Widget build(BuildContext context) {
     final pageBloc = BlocProvider.of<PageBloc>(context);
+    final database = Provider.of<UserDatabase>(context);
     return BlocBuilder(
         bloc: pageBloc,
         builder: (context, state) {
@@ -49,9 +52,6 @@ class _ForegroundState extends State<Foreground> {
                           borderRadius: 7,
                           onTap: () {
                             pageBloc.add(DecrementCounter());
-                            // setState(() {
-                            //   _counter -= 100;
-                            // });
                           },
                         ),
                         Text(
@@ -65,13 +65,6 @@ class _ForegroundState extends State<Foreground> {
                           borderRadius: 7,
                           onTap: () {
                             pageBloc.add(IncrementCounter());
-
-                            // setState(
-                            //   () {
-                            //     print(state);
-                            //     _counter += 100;
-                            //   },
-                            // );
                           },
                         ),
                       ],
@@ -87,8 +80,52 @@ class _ForegroundState extends State<Foreground> {
                           iconSize: 25,
                           borderRadius: 16,
                           onTap: () {
+                            // database.getUser().then((user) {
+                            //   final user = UserData(
+                            //       uuid: 1,
+                            //       name: 'John Doe',
+                            //       age: 24,
+                            //       phone: 999151420,
+                            //       email: 'username@domain.com',
+                            //       salary: state.page.initialAmount,
+                            //       rent: 0);
+                            //   database.insertUser(user);
+                            // });
+                            // pageBloc.add(ChangePage());
+                            // database.getUser().then((user) {
+
+                            //   database.updateUser(user.copyWith(
+                            //       rent: state.page.initialAmount));
+                            // });
+                            UserData user = UserData(
+                              uuid: 1,
+                              name: 'John Doe',
+                              age: 24,
+                              phone: 999878420,
+                              email: 'lorem@ipsum.com',
+                              salary: 0,
+                              rent: 0,
+                            );
+                            switch (_counter) {
+                              case 0:
+                                int salary = state.page.initialAmount;
+                                user = user.copyWith(salary: salary);
+                                database.insertUser(user);
+                                _counter++;
+                                print(_counter);
+                                break;
+                              case 1:
+                                int rent = state.page.intitalAmount;
+                                user = user.copyWith(rent: rent);
+                                database.getUser().then(
+                                  (user) {
+                                    database.updateUser(user);
+                                  },
+                                );
+                                _counter++;
+                                break;
+                            }
                             pageBloc.add(ChangePage());
-                            _counter = state.page.initialAmount;
                           },
                         ),
                       ),
