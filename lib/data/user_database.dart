@@ -15,7 +15,10 @@ class User extends Table {
   Set<Column> get primaryKey => {uuid};
 }
 
-@UseMoor(tables: [User])
+@UseMoor(
+  tables: [User],
+  include: {'user.moor'},
+)
 class UserDatabase extends _$UserDatabase {
   UserDatabase()
       : super((FlutterQueryExecutor.inDatabaseFolder(
@@ -37,5 +40,6 @@ class UserDatabase extends _$UserDatabase {
   Future updateUser(UserData _user) => update(user).replace(_user);
 
   Future deleteUser(UserData _user) => delete(user).delete(_user);
-  
+
+  Future deleteTable() => delete(user).go();
 }

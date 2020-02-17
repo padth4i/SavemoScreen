@@ -13,127 +13,114 @@ class Foreground extends StatefulWidget {
 }
 
 class _ForegroundState extends State<Foreground> {
+  int _counter = 0;
+  int salary = 0;
+
   @override
   Widget build(BuildContext context) {
     final pageBloc = BlocProvider.of<PageBloc>(context);
     final database = Provider.of<UserDatabase>(context);
     return BlocBuilder(
-        bloc: pageBloc,
-        builder: (context, state) {
-          int _counter = 0;
-          return Positioned(
-            top: 80,
-            left: (MediaQuery.of(context).size.width - 325) / 2.0,
-            child: Container(
-              padding: EdgeInsets.only(top: 30, left: 24, right: 24),
-              height: 400,
-              width: 325,
-              decoration: BoxDecoration(
-                  color: dialogBoxColor,
-                  shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.circular(15)),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+      bloc: pageBloc,
+      builder: (context, state) {
+        return Positioned(
+          top: 80,
+          left: (MediaQuery.of(context).size.width - 325) / 2.0,
+          child: Container(
+            padding: EdgeInsets.only(top: 30, left: 24, right: 24),
+            height: 400,
+            width: 325,
+            decoration: BoxDecoration(
+                color: dialogBoxColor,
+                shape: BoxShape.rectangle,
+                borderRadius: BorderRadius.circular(15)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 15),
+                  child: Text(
+                    state.page.question,
+                    style: mainTextStyle,
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 15),
-                      child: Text(
-                        state.page.question,
-                        style: mainTextStyle,
-                      ),
+                    CustomIconButton(
+                      padding: 4,
+                      icon: Icons.remove,
+                      iconSize: 20,
+                      borderRadius: 7,
+                      onTap: () {
+                        pageBloc.add(DecrementCounter());
+                      },
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        CustomIconButton(
-                          padding: 4,
-                          icon: Icons.remove,
-                          iconSize: 20,
-                          borderRadius: 7,
-                          onTap: () {
-                            pageBloc.add(DecrementCounter());
-                          },
-                        ),
-                        Text(
-                          state.page.initialAmount.toString(),
-                          style: numberStyle,
-                        ),
-                        CustomIconButton(
-                          padding: 4,
-                          icon: Icons.add,
-                          iconSize: 20,
-                          borderRadius: 7,
-                          onTap: () {
-                            pageBloc.add(IncrementCounter());
-                          },
-                        ),
-                      ],
+                    Text(
+                      state.page.initialAmount.toString(),
+                      style: numberStyle,
                     ),
-                    factBox(context, state.page),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 24),
-                      child: Align(
-                        alignment: Alignment.bottomRight,
-                        child: CustomIconButton(
-                          padding: 20,
-                          icon: Icons.navigate_next,
-                          iconSize: 25,
-                          borderRadius: 16,
-                          onTap: () {
-                            // database.getUser().then((user) {
-                            //   final user = UserData(
-                            //       uuid: 1,
-                            //       name: 'John Doe',
-                            //       age: 24,
-                            //       phone: 999151420,
-                            //       email: 'username@domain.com',
-                            //       salary: state.page.initialAmount,
-                            //       rent: 0);
-                            //   database.insertUser(user);
-                            // });
-                            // pageBloc.add(ChangePage());
-                            // database.getUser().then((user) {
-
-                            //   database.updateUser(user.copyWith(
-                            //       rent: state.page.initialAmount));
-                            // });
-                            UserData user = UserData(
-                              uuid: 1,
-                              name: 'John Doe',
-                              age: 24,
-                              phone: 999878420,
-                              email: 'lorem@ipsum.com',
-                              salary: 0,
-                              rent: 0,
-                            );
-                            switch (_counter) {
-                              case 0:
-                                int salary = state.page.initialAmount;
-                                user = user.copyWith(salary: salary);
-                                database.insertUser(user);
-                                _counter++;
-                                print(_counter);
-                                break;
-                              case 1:
-                                int rent = state.page.intitalAmount;
-                                user = user.copyWith(rent: rent);
-                                database.getUser().then(
-                                  (user) {
-                                    database.updateUser(user);
-                                  },
-                                );
-                                _counter++;
-                                break;
-                            }
+                    CustomIconButton(
+                      padding: 4,
+                      icon: Icons.add,
+                      iconSize: 20,
+                      borderRadius: 7,
+                      onTap: () {
+                        pageBloc.add(IncrementCounter());
+                      },
+                    ),
+                  ],
+                ),
+                factBox(context, state.page),
+                Padding(
+                  padding: const EdgeInsets.only(top: 24),
+                  child: Align(
+                    alignment: Alignment.bottomRight,
+                    child: CustomIconButton(
+                      padding: 20,
+                      icon: Icons.navigate_next,
+                      iconSize: 25,
+                      borderRadius: 16,
+                      onTap: () {
+                        UserData user = UserData(
+                          uuid: 1,
+                          name: 'John Doe',
+                          age: 24,
+                          phone: 999878420,
+                          email: 'lorem@ipsum.com',
+                          salary: 0,
+                          rent: 0,
+                        );
+                        switch (_counter) {
+                          case 0:
+                            database.deleteTable();
+                            salary = state.page.initialAmount;
+                            user = user.copyWith(salary: salary);
+                            database.insertUser(user);
+                            _counter++;
                             pageBloc.add(ChangePage());
-                          },
-                        ),
-                      ),
-                    )
-                  ]),
+                            break;
+                          case 1:
+                            database.getUser().then(
+                              (_user) {
+                                database.updateUser(
+                                  user.copyWith(rent: state.page.initialAmount, salary: salary),
+                                );
+                              },
+                            );
+                            _counter++;
+                            break;
+                        }
+                      },
+                    ),
+                  ),
+                )
+              ],
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 
   Widget factBox(BuildContext context, Page page) {
